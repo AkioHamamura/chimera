@@ -1,0 +1,12 @@
+# file: count.calc
+# purpose: Count according to user specifications
+
+input start
+input count_end
+input increment
+
+num = start
+while num <= count_end
+  display num
+  num = num + increment
+end while

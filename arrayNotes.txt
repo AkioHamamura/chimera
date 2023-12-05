@@ -1,0 +1,34 @@
+Calc Arrays
+  - Statically sized
+  - An operator to retrieve size
+  - numbers of any type
+
+Array Declaration Syntax
+========================
+dimension name size
+dimension ar 10
+
+Array Index
+===========
+- start with 1
+- syntax:
+ar[i]
+
+Aggregate Types
+===============
+- Structures that let us bundle things together
+
+Define:
+
+record type_name
+  field name
+  field dimension name size
+end record
+
+create one
+name = new type_name
+
+Field Access
+=============
+name.field_name
+name.field_name[index]

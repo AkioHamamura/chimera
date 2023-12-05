@@ -1,0 +1,20 @@
+# File: quadratic.calc
+# Purpose: Find the real roots of a quadratic equation.
+
+# ax^2 + bx +c
+input a
+input b
+input c
+
+# compute the discriminant
+disc = b^2 - 4 * a * c
+
+if disc >= 0
+   d= 2 * a
+  x1=(-b + disc^0.5) / d
+  x2=(-b - disc^0.5) / d
+  if x1 <> x2 
+     display x1
+  end if
+  display x2
+end if

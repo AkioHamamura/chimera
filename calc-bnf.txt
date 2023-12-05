@@ -1,0 +1,86 @@
+  < Program >    ::= < Program > < Statement >
+                   | < Statement >
+
+< Statement >  ::= < Expression > "\n"
+                   | < Assignment > "\n"
+                   | < IO-Operation > "\n"
+                   | < Array-Dim > "\n"
+                   | < Record-Decl > "\n"
+                   | < Branch > "\n"
+                   | < Loop > "\n"
+                   | < Fun-Decl > "\n"
+                   | "\n"
+
+< Branch >     ::= "if" < Condition > "\n" < Program > "end" "if"
+
+< Loop >       ::= "while" < Condition > "\n" < Program > "end" "while"
+
+< Fun-Decl >   ::= "fun" < Id > "(" < Param-List > ")" "\n" < Program > "end" "fun"
+
+< Param-List > ::= < NV-Param-List > | ""
+
+< NV-Param-List > ::= < NV-Param-List > "," < Id >
+                      | < Id >
+
+< Condition >  ::= < Expression > ">" < Expression >
+                   | < Expression > "<" < Expression >
+                   | < Expression > "<=" < Expression >
+                   | < Expression > ">=" < Expression >
+                   | < Expression > "=" < Expression >
+                   | < Expression > "<>" < Expression >
+
+< Assignment > ::= < Ref > "=" < Expression >
+
+< IO-Operation > ::= "display" < Expression >
+                     | "input" < Ref >
+
+< Array-Dim >  ::= "dimension" < Id > < Expression >
+
+< Record-Decl > ::= "record" < Id > < Record-Fields > "end" "record"
+
+< Record-Fields > ::= < Record-Fields > < Field >
+                      | < Field >
+
+< Field >         ::= "field" < Id >
+                      | "field" < Array-Dim >
+
+< Expression > ::= < Expression > "+" < Term >
+                   | < Expression > "-" < Term >
+                   | < Term >
+
+< Term >       ::= < Term > "*" < Factor >
+                   | < Term > "/" < Factor >
+                   | < Term > "MOD" < Factor >
+                   | < Factor >
+
+< Factor >     ::= < Factor > "^" < Exponent >
+                   | < Exponent >
+
+< Exponent >   ::= < Number >
+                   | "-" < Exponent >
+                   | "(" < Expression > ")"
+
+< Number >     ::=  < Integer > | < Real > | < Ref > 
+
+< Ref >        ::= < Ref > "[" < Expression > "]" 
+                   | < Ref > "(" < Arg-List > ")"
+                   | < Ref > "." < Id >
+                   | < Id >
+                   
+< Arg-List > ::= < NV-Arg-List > | ""
+
+< NV-Arg-List > ::= < NV-Arg-List > "," < Expression >
+                      | < Expression >
+
+< Integer >    ::= < Number > < Digit >
+                   | < Digit >
+
+< Real >       ::= < Integer > "." < Integer >
+
+< Digit >      ::= "0" | "1" | "2" | ... | "9"
+
+< Id >         ::= < Letter > < Id' > | "_" < Id' > 
+
+< Id' >        ::= < Letter > < Id' > | "_" < Id' > | < Digit > < Id' > | ""
+
+Comments begin with "#" and end at end of line
