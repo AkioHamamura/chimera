@@ -284,7 +284,7 @@
       return result;
     }
     else if (match(Token.DISPLAYSTRING) != null){
-        Display result = new Display();
+        DisplayString result = new DisplayString();
         result.setChild(parseExpression());
         return result;
     }
