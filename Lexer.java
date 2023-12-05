@@ -193,6 +193,8 @@ public class Lexer {
     String str = curString.toString();
     if (str.equals("MOD")) {
       setToken(Token.MOD);
+    } else if (str.equals("displayString")) {
+      setToken(Token.DISPLAYSTRING);
     } else if (str.equals("display")) {
       setToken(Token.DISPLAY);
     } else if(str.equals("input")) {

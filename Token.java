@@ -14,6 +14,7 @@ public enum Token {
     MOD,
     EQUAL,
     DISPLAY,
+    DISPLAYSTRING,
     INPUT,
     ID,
     IF,

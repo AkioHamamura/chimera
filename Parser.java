@@ -7,7 +7,7 @@
   }
 
   public ParseTree parse() {
-    this.lexer.next();  //linitialize the lexer
+    this.lexer.next();  // initialize the lexer
     return parseProgram();
   }
 
@@ -91,7 +91,9 @@
       result = parseRef();
       result = parseStatement2(result);
     } else if(has(Token.INPUT, Token.DISPLAY)) {
-      result = parseIOOperation();
+        result = parseIOOperation();
+    } else if(has(Token.INPUT, Token.DISPLAYSTRING)) {
+        result = parseIOOperation();
     } else if(has(Token.DIMENSION)) {
       result = parseArrayDimension(); 
     } else if(has(Token.IF)) {
@@ -148,11 +150,13 @@
   
 
   /**
-   < Branch >     ::= IF < Condition > NEWLINE < Program > END IF
+   < Branch >     ::= IF LPAREN < Condition > RPAREN NEWLINE < Program > END IF
    */
   private ParseTree parseBranch() {
     mustBe(Token.IF);
+    mustBe(Token.LPAREN);
     ParseTree condition = parseCondition();
+    mustBe(Token.RPAREN);
     mustBe(Token.NEWLINE);
     ParseTree program = parseProgram();
     mustBe(Token.END);
@@ -278,6 +282,11 @@
       Display result = new Display();
       result.setChild(parseExpression());
       return result;
+    }
+    else if (match(Token.DISPLAYSTRING) != null){
+        Display result = new Display();
+        result.setChild(parseExpression());
+        return result;
     }
 
     mustBe(Token.INPUT);
