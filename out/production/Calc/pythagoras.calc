@@ -1,0 +1,9 @@
+# Compute the hypotenuse of a right triangle
+# get input
+    # adsfasdf 
+input a
+input b
+
+# get the result
+c = (a^2 + b^2)^0.5 # run pythagoras
+display c

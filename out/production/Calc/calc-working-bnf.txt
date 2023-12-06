@@ -1,0 +1,129 @@
+To eliminate left recursion
+Convert: A -> Aa1 | Aa2 | ... | Aan | B
+To: 
+  A -> BA'
+  A' -> a1 A' | a2 A' | ... | ""
+
+Context-Free Portion
+====================
+< Program >    ::= < Program > < Statement >
+                   | < Statement >
+
+< Statement >  ::= ID < Statement' > NEWLINE
+                   | < IO-Operation > NEWLINE
+                   | < Array-Dim > NEWLINE
+                   | < Record-Decl > NEWLINE
+                   | < Branch > NEWLINE
+                   | < Loop > NEWLINE
+                   | < Expression > NEWLINE
+                   | < Fun-Decl > NEWLINE
+                   | NEWLINE
+
+< Statement' >  ::= < Ref' > < Statement''> 
+< Statement'' >  ::= EQUAL < Expression >
+                    | < Factor' > < Term' > < Expression' >
+                    
+< Branch >     ::= IF < Condition > NEWLINE < Program > END IF
+
+< Loop >       ::= WHILE < Condition > NEWLINE < Program > END WHILE
+
+< Fun-Decl >   ::= "fun" < Id > "(" < Param-List > ")" "\n" < Program > "end" "fun"
+
+< Param-List > ::= < NV-Param-List > | ""
+
+< NV-Param-List > ::= < NV-Param-List > "," < Id >
+                      | < Id >
+
+< Condition >  ::= < Expression > < Condition' >
+
+< Condition' > ::= GT < Expression >
+                   | LT < Expression >
+                   | LTE < Expression >
+                   | GTE < Expression >
+                   | EQUAL < Expression >
+                   | NE < Expression >
+                   
+< IO-Operation > ::= DISPLAY < Expression >
+                     | INPUT ID
+                     
+< Array-Dim >  ::= DIMENSION ID < Expression >
+
+< Record-Decl > ::= RECORD ID < Record-Fields > END RECORD
+
+< Record-Fields > ::= < Record-Fields > < Field >
+                      | < Field >
+
+< Field >         ::= FIELD < Field' > 
+
+< Field' >        ::= ID
+                      | < Array-Dim >
+
+< Expression > ::= < Term > < Expression' >
+
+< Expression' > ::= PLUS < Term > < Expression' >
+                   | MINUS < Term > < Expression' >
+                   | ""
+
+< Term >       ::= < Factor > < Term' >
+
+< Term' >      ::= TIMES < Factor > < Term' >
+                   | DIVIDE < Factor > < Term' >
+                   | MOD < Factor > < Term' >
+                   | ""
+
+< Factor >     ::= < Exponent > < Factor' >
+
+< Factor' >    ::= POW < Exponent > < Factor' >
+                   | ""
+
+< Exponent >   ::= < Number >
+                   | MINUS < Exponent >
+                   | LPAREN < Expression > RPAREN
+
+< Number >     ::= INTLIT | REALLIT | < Ref >
+
+< Ref >        ::= ID < Ref' >
+
+< Ref' >       ::= LBRACKET < Expression > RBRACKET < Ref' >
+                   | DOT ID < Ref' >
+                   | LPAREN < Arg-List > RPAREN < Ref' >
+                   | ""
+                   
+< Arg-List > ::= < NV-Arg-List > | ""
+
+< NV-Arg-List > ::= < NV-Arg-List > "," < Expression >
+                      | < Expression >
+
+Lexer Grammar
+=============
+PLUS            +
+MINUS           -
+TIMES           *
+DIVIDE          /
+POW             ^
+LPAREN          (
+RPAREN          )
+NEWLINE         \n
+INTLIT          [0-9]+
+REALLIT         [0-9]+\.[0-9]+
+MOD             MOD
+EQUAL           =
+DISPLAY         display
+DISPLAYSTRING   displayString
+INPUT           input
+ID              [a-zA-Z_][a-zA-Z_0-9]*
+IF              if
+END             end
+WHILE           while
+GT              >
+GTE             >=
+LT              <
+LTE             <=
+NE              <>
+LBRACKET        [
+RBRACKET        ]
+DOT             .
+DIMENSION       dimension
+RECORD          record
+FIELD           field
+FUN             fun

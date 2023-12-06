@@ -128,6 +128,12 @@ public class Lexer {
       case ']':
         tok = Token.RBRACKET;
         break;
+      case '{':
+        tok = Token.LBRACE;
+        break;
+      case '}':
+        tok = Token.END;
+        break;
       case '.':
         tok = Token.DOT;
         break;
@@ -193,9 +199,9 @@ public class Lexer {
     String str = curString.toString();
     if (str.equals("MOD")) {
       setToken(Token.MOD);
-    } else if (str.equals("displayString")) {
+    } else if (str.equals("printString")) {
       setToken(Token.DISPLAYSTRING);
-    } else if (str.equals("display")) {
+    } else if (str.equals("print")) {
       setToken(Token.DISPLAY);
     } else if(str.equals("input")) {
       setToken(Token.INPUT);
@@ -211,6 +217,8 @@ public class Lexer {
       setToken(Token.RECORD);
     } else if(str.equals("field")) {
       setToken(Token.FIELD);
+    } else if(str.equals("let")) {
+      setToken(Token.LET);
     } else if(str.equals("fun")) {
       setToken(Token.FUN);
     } else {

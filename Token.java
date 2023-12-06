@@ -31,5 +31,9 @@ public enum Token {
     DIMENSION,
     RECORD,
     FIELD,
-    FUN
+    FUN,
+    LET,
+    LBRACE,
+    RBRACE,
+    COMMA
 }

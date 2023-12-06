@@ -1,4 +1,4 @@
-# Hello World
+# test the branch
 
 dimension str 12
 str[0] = 72
@@ -13,5 +13,5 @@ str[8] = 114
 str[9] = 108
 str[10] = 100
 str[11] = 0
-printString(str)
+displayString str
 

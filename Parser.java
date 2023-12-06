@@ -86,10 +86,17 @@
     ParseTree result = null;
     Lexeme tok;
 
-    if(has(Token.ID)) { 
-      // Handle an ID statement / expression
-      result = parseRef();
-      result = parseStatement2(result);
+    if(has(Token.ID)) {
+        // Handle an ID statement / expression
+        result = parseRef();
+        result = parseStatement2(result);
+    }else if(has(Token.LET)){
+        //set the current token to be an ID
+        mustBe(Token.ID);
+        result = parseRef();
+        result = parseStatement2(result);
+
+
     } else if(has(Token.INPUT, Token.DISPLAY)) {
         result = parseIOOperation();
     } else if(has(Token.INPUT, Token.DISPLAYSTRING)) {
@@ -150,17 +157,22 @@
   
 
   /**
-   < Branch >     ::= IF LPAREN < Condition > RPAREN NEWLINE < Program > END IF
+   < Branch >     ::= IF LPAREN < Condition > RPAREN LBRACE NEWLINE < Program > END
    */
   private ParseTree parseBranch() {
     mustBe(Token.IF);
     mustBe(Token.LPAREN);
     ParseTree condition = parseCondition();
     mustBe(Token.RPAREN);
+      //If the next token is a newline, then we need to skip it
+    if(has(Token.NEWLINE)){
+         mustBe(Token.NEWLINE);
+    }
+    mustBe(Token.LBRACE);
     mustBe(Token.NEWLINE);
     ParseTree program = parseProgram();
     mustBe(Token.END);
-    mustBe(Token.IF);
+
     
     Branch result = new Branch();
     result.setLeft(condition);
@@ -169,15 +181,25 @@
   }
 
   /**
-   < Loop >        ::= WHILE < Condition > NEWLINE < Program > END WHILE
+   < Loop >        ::= WHILE LPAREN < Condition > RPAREN LBRACE NEWLINE < Program > RBRACE
   */
   private ParseTree parseLoop() {
     mustBe(Token.WHILE);
+    mustBe(Token.LPAREN);
     ParseTree condition = parseCondition();
+    mustBe(Token.RPAREN);
+
+    //If the next token is a newline, then we need to skip it
+    if(has(Token.NEWLINE)){
+        mustBe(Token.NEWLINE);
+    }
+
+    //mustBe(Token.NEWLINE);
+    mustBe(Token.LBRACE);
     mustBe(Token.NEWLINE);
     ParseTree program = parseProgram();
     mustBe(Token.END);
-    mustBe(Token.WHILE);
+    //mustBe(Token.RPAREN);
 
     Loop result = new Loop();
     result.setLeft(condition);
@@ -274,18 +296,22 @@
   
   
   /** 
-  < IO-Operation > ::= DISPLAY < Expression >
+  < IO-Operation > ::= DISPLAY LPAREN < Expression > RPAREN
                        | INPUT < Ref >
   */
   private ParseTree parseIOOperation() {
     if(match(Token.DISPLAY) != null) {
       Display result = new Display();
+      mustBe(Token.LPAREN);
       result.setChild(parseExpression());
+      mustBe(Token.RPAREN);
       return result;
     }
     else if (match(Token.DISPLAYSTRING) != null){
+        mustBe(Token.LPAREN);
         DisplayString result = new DisplayString();
         result.setChild(parseExpression());
+        mustBe(Token.RPAREN);
         return result;
     }
 
