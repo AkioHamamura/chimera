@@ -1,4 +1,4 @@
-Calc Arrays
+Chim Arrays
   - Statically sized
   - An operator to retrieve size
   - numbers of any type

@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
 
-public class Calc
+public class Chim
 {
   // REPL (Read Evaluate Print Loop) for calc
   public static void repl(){
